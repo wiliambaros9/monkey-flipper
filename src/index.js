@@ -26,7 +26,7 @@ class SeededRandom {
 // НОВОЕ: URL сервера для отправки счетов И Socket.IO
 const SERVER_URL = window.location.hostname === 'localhost' 
     ? 'http://localhost:3000'  // Для локальной разработки
-    : 'https://YOUR_RENDER_URL.onrender.com';  // ⚠️ ЗАМЕНИТЕ НА ВАШ URL!
+    : 'https://monkey-flipper.onrender.com';  
 
 // НОВОЕ: Функция получения Telegram User ID
 function getTelegramUserId() {
