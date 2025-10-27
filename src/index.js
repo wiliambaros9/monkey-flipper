@@ -860,14 +860,19 @@ class GameScene extends Phaser.Scene {
         // ==================== OPPONENT GHOST (1V1 MODE) ====================
         if (this.gameMode === '1v1') {
             this.createOpponentGhost(playerY);
+            
+            // ВАЖНО: Отправляем начальную позицию сразу же!
+            // Это гарантирует что оппонент увидит нас в правильной позиции
+            this.sendPlayerUpdate();
+            console.log('📤 Отправлена начальная позиция игрока');
         }
     }
     
     createOpponentGhost(startY) {
         // Создаем полупрозрачного ghost оппонента
-        // Устанавливаем начальную Y позицию из opponentData (если есть) или используем startY
-        const initialY = this.opponentData.y || startY;
-        this.opponent = this.add.sprite(CONSTS.WIDTH / 2 + 100, initialY, 'playerSprite');
+        // ВАЖНО: Начальная позиция ВСЕГДА совпадает с позицией своего игрока
+        // Реальная позиция оппонента придёт через первый opponentUpdate
+        this.opponent = this.add.sprite(CONSTS.WIDTH / 2 + 100, startY, 'playerSprite');
         this.opponent.setScale(0.7);
         this.opponent.setAlpha(0.5); // Полупрозрачный
         this.opponent.setTint(0xFF6666); // Красноватый оттенок
@@ -875,6 +880,7 @@ class GameScene extends Phaser.Scene {
         
         console.log('👻 Opponent ghost создан');
         console.log('   Ghost Y:', this.opponent.y, 'Player Y:', this.player.y);
+        console.log('   ⚠️ Ожидаем первый opponentUpdate для реальной позиции');
         
         // Добавляем имя оппонента над ним
         this.opponentNameText = this.add.text(0, -50, this.opponentData.username, {
